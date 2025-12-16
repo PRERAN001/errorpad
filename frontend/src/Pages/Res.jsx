@@ -29,7 +29,7 @@ const Res = () => {
 
   return (
     <div className="min-h-screen bg-black text-white flex flex-col">
-      <div className="border-b border-neutral-800 px-6 py-4 flex items-center justify-between bg-neutral-950">
+      <div className="border-b border-neutral-800 px-6 py-4 flex items-center justify-between bg-neutral-950 sticky top-0 z-10">
         <div className="flex items-center gap-3">
           <h1 className="text-2xl font-bold">Scribble Pad</h1>
           <span className="text-neutral-600">|</span>
@@ -37,43 +37,38 @@ const Res = () => {
         </div>
         <button
           onClick={saveText}
-          className="bg-white text-black px-6 py-2 rounded-lg text-sm font-semibold hover:bg-neutral-200 active:scale-95 transition-all"
+          className="bg-white text-black px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-neutral-200 active:scale-95 transition-all"
         >
           Save
         </button>
       </div>
 
-      <div className="flex-1 relative">
+      <div className="flex-1 relative overflow-hidden">
         <div 
           className="absolute inset-0 pointer-events-none"
           style={{
             backgroundImage: `repeating-linear-gradient(
               transparent,
-              transparent 39px,
-              #262626 39px,
-              #262626 40px
+              transparent 31px,
+              #1a1a1a 31px,
+              #1a1a1a 32px
             )`,
-            backgroundPosition: '0 20px'
+            backgroundPosition: '0 16px'
           }}
-        ></div>
+        />
 
         <textarea
-          className="w-full h-full bg-transparent text-white text-xl leading-10 px-8 py-6 outline-none resize-none placeholder-neutral-700"
+          className="w-full min-h-screen bg-transparent text-white text-lg px-8 outline-none resize-none placeholder-neutral-700 relative z-10"
           style={{
-            lineHeight: '40px',
-            paddingTop: '20px'
+            lineHeight: '32px',
+            paddingTop: '16px',
+            paddingBottom: '16px'
           }}
           value={restext}
           onChange={(e) => setRestext(e.target.value)}
           placeholder="start writing..."
         />
       </div>
-
-      <style>{`
-        textarea::placeholder {
-          font-style: italic;
-        }
-      `}</style>
     </div>
   );
 };
