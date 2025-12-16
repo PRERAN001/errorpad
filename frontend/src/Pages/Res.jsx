@@ -31,7 +31,7 @@ const Res = () => {
     <div className="min-h-screen bg-black text-white flex flex-col">
       <div className="border-b border-neutral-800 px-6 py-4 flex items-center justify-between bg-neutral-950 sticky top-0 z-20">
         <div className="flex items-center gap-3 flex-1 min-w-0">
-          <h1 className="text-2xl font-bold whitespace-nowrap">Scribble Pad</h1>
+          <h1 className="text-2xl font-bold whitespace-nowrap">Error Pad</h1>
           <span className="text-neutral-600">|</span>
           <span className="text-neutral-400 text-lg truncate">{query}</span>
         </div>
