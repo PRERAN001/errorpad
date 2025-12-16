@@ -12,31 +12,44 @@ export default function Errorpadmainpage() {
     if (!query.trim()) return;
 
     try {
-      
       setYes(true);
       navigate(`/${query}`);
     } catch {
-      
       setYes(true);
       navigate(`/${query}`);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center text-white">
-      <div className="w-full max-w-xl px-6">
-        <h1 className="text-5xl font-semibold text-center mb-10">Errorpad</h1>
-        <form className="flex" onSubmit={send}>
+    <div className="min-h-screen flex items-center justify-center bg-neutral-950 text-white">
+
+      <div className="w-full max-w-2xl px-8 py-10 bg-neutral-900 rounded-2xl shadow-2xl border border-neutral-800 relative">
+        
+      
+        <div className="absolute inset-0 rounded-2xl bg-[radial-gradient(circle_at_1px_1px,#262626_1px,transparent_0)] bg-[size:18px_18px] pointer-events-none" />
+
+        <h1 className="relative text-5xl font-bold text-center mb-8 tracking-tight">
+          Scribble Pad!
+        </h1>
+
+        <form className="relative flex gap-3" onSubmit={send}>
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="type anything..."
-            className="flex-1 bg-neutral-900 border border-neutral-800 rounded-l-lg px-4 py-3 outline-none text-lg"
+            className="flex-1 bg-neutral-950 border border-neutral-700 rounded-xl px-5 py-4 outline-none text-lg placeholder-neutral-500 focus:border-white transition"
           />
-          <button className="bg-black text-white px-6 rounded-r-lg text-lg">
+
+          <button
+            className="bg-white text-black px-7 rounded-xl text-lg font-medium hover:bg-neutral-200 transition"
+          >
             Go
           </button>
         </form>
+
+        <p className="relative text-center text-neutral-500 mt-6 text-sm">
+          write freely — share easily
+        </p>
       </div>
     </div>
   );
