@@ -29,15 +29,15 @@ const Res = () => {
 
   return (
     <div className="min-h-screen bg-black text-white flex flex-col">
-      <div className="border-b border-neutral-800 px-6 py-4 flex items-center justify-between bg-neutral-950 sticky top-0 z-10">
-        <div className="flex items-center gap-3">
-          <h1 className="text-2xl font-bold">Scribble Pad</h1>
+      <div className="border-b border-neutral-800 px-6 py-4 flex items-center justify-between bg-neutral-950 sticky top-0 z-20">
+        <div className="flex items-center gap-3 flex-1 min-w-0">
+          <h1 className="text-2xl font-bold whitespace-nowrap">Scribble Pad</h1>
           <span className="text-neutral-600">|</span>
-          <span className="text-neutral-400 text-lg">{query}</span>
+          <span className="text-neutral-400 text-lg truncate">{query}</span>
         </div>
         <button
           onClick={saveText}
-          className="bg-white text-black px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-neutral-200 active:scale-95 transition-all"
+          className="bg-white text-black px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-neutral-200 active:scale-95 transition-all shrink-0 ml-4"
         >
           Save
         </button>
