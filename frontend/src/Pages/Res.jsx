@@ -14,7 +14,7 @@ const Res = () => {
         );
         setRestext(response.data.usercontext);
       } catch {
-        setRestext("no text found, type something");
+        setRestext("");
       }
     };
     fetchText();
@@ -28,32 +28,52 @@ const Res = () => {
   };
 
   return (
-    <div className="min-h-screen bg-neutral-950 flex justify-center px-4 py-6">
-      <div className="relative w-full max-w-5xl bg-neutral-900 border border-neutral-800 rounded-2xl shadow-2xl flex flex-col">
+    <div className="min-h-screen bg-black text-white flex flex-col">
+      <div className="border-b border-neutral-800 px-6 py-4 flex items-center justify-between bg-neutral-950">
+        <div className="flex items-center gap-3">
+          <h1 className="text-2xl font-bold">Scribble Pad</h1>
+          <span className="text-neutral-600">|</span>
+          <span className="text-neutral-400 text-lg">{query}</span>
+        </div>
+        <button
+          onClick={saveText}
+          className="bg-white text-black px-6 py-2 rounded-lg text-sm font-semibold hover:bg-neutral-200 active:scale-95 transition-all"
+        >
+          Save
+        </button>
+      </div>
 
-
-        <div className="absolute inset-0 rounded-2xl bg-[radial-gradient(circle_at_1px_1px,#262626_1px,transparent_0)] bg-[size:18px_18px] opacity-40 pointer-events-none" />
-
+      <div className="flex-1 relative">
+        <div 
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            backgroundImage: `repeating-linear-gradient(
+              transparent,
+              transparent 39px,
+              #262626 39px,
+              #262626 40px
+            )`,
+            backgroundPosition: '0 20px'
+          }}
+        ></div>
 
         <textarea
-          className="relative flex-1 w-full bg-transparent text-neutral-100 
-                     text-2xl leading-relaxed p-10 outline-none resize-none
-                     placeholder-neutral-500 custom-scroll"
+          className="w-full h-full bg-transparent text-white text-xl leading-10 px-8 py-6 outline-none resize-none placeholder-neutral-700"
+          style={{
+            lineHeight: '40px',
+            paddingTop: '20px'
+          }}
           value={restext}
           onChange={(e) => setRestext(e.target.value)}
           placeholder="start writing..."
         />
-
-
-        <div className="relative flex justify-end border-t border-neutral-800 px-6 py-4">
-          <button
-            onClick={saveText}
-            className="bg-white text-black px-6 py-2 rounded-xl text-sm font-medium hover:bg-neutral-200 active:scale-95 transition"
-          >
-            Save
-          </button>
-        </div>
       </div>
+
+      <style>{`
+        textarea::placeholder {
+          font-style: italic;
+        }
+      `}</style>
     </div>
   );
 };

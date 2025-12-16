@@ -21,35 +21,38 @@ export default function Errorpadmainpage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-neutral-950 text-white">
+    <div className="min-h-screen bg-black text-white flex items-center justify-center p-4">
+      <div className="w-full max-w-3xl">
+        <div className="text-center mb-12">
+          <h1 className="text-6xl font-bold mb-3 bg-gradient-to-r from-white to-neutral-400 bg-clip-text text-transparent">
+            Scribble Pad
+          </h1>
+          <p className="text-neutral-500 text-lg">
+            write freely - share easily
+          </p>
+        </div>
 
-      <div className="w-full max-w-2xl px-8 py-10 bg-neutral-900 rounded-2xl shadow-2xl border border-neutral-800 relative">
-        
-      
-        <div className="absolute inset-0 rounded-2xl bg-[radial-gradient(circle_at_1px_1px,#262626_1px,transparent_0)] bg-[size:18px_18px] pointer-events-none" />
-
-        <h1 className="relative text-5xl font-bold text-center mb-8 tracking-tight">
-          Scribble Pad!
-        </h1>
-
-        <form className="relative flex gap-3" onSubmit={send}>
-          <input
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="type anything..."
-            className="flex-1 bg-neutral-950 border border-neutral-700 rounded-xl px-5 py-4 outline-none text-lg placeholder-neutral-500 focus:border-white transition"
-          />
-
-          <button
-            className="bg-white text-black px-7 rounded-xl text-lg font-medium hover:bg-neutral-200 transition"
-          >
-            Go
-          </button>
+        <form onSubmit={send} className="relative">
+          <div className="absolute -inset-1 bg-gradient-to-r from-neutral-600 via-neutral-500 to-neutral-600 rounded-2xl blur opacity-25"></div>
+          <div className="relative bg-neutral-900 border border-neutral-700 rounded-2xl p-8">
+            <input
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="enter a pad name to start..."
+              className="w-full bg-black border-2 border-neutral-800 rounded-xl px-6 py-5 outline-none text-xl placeholder-neutral-600 focus:border-neutral-500 transition-all"
+            />
+            <button
+              type="submit"
+              className="mt-6 w-full bg-white text-black py-4 rounded-xl text-lg font-semibold hover:bg-neutral-200 active:scale-98 transition-all"
+            >
+              Create Pad
+            </button>
+          </div>
         </form>
 
-        <p className="relative text-center text-neutral-500 mt-6 text-sm">
-          write freely — share easily
-        </p>
+        <div className="mt-8 text-center text-neutral-600 text-sm">
+          <p>No sign up required. Just type and go.</p>
+        </div>
       </div>
     </div>
   );
