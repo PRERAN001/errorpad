@@ -1,25 +1,23 @@
 const express = require('express');
 const app = express();
+require('dotenv').config();
 const cors=require("cors")
 app.use(cors());
-const port = 3000;
+const port = process.env.port;
 app.use(express.json());
 const mongoose=require("mongoose")
-mongoose.connect('mongodb://127.0.0.1:27017/errorpad').then(()=>{
+mongoose.connect(process.env.mongodburl).then(()=>{
     console.log("Connected to MongoDB");
 })
 const User = require('./model/usermodel');
 app.post('/:userquery', async (req, res) => {
     const userquery = req.params.userquery;
-    const { usercontext } = req.body;
-
-    
+    const { usercontext } = req.body;    
     const user = await User.findOneAndUpdate(
         { userquery: userquery }, 
         { usercontext: usercontext },
         { new: true, upsert: true } 
-    );
-    
+    );    
     console.log("Updated user:", user);
     res.status(201).json(user);
 });
