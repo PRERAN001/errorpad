@@ -25,7 +25,7 @@ export default function Errorpadmainpage() {
       <div className="w-full max-w-3xl">
         <div className="text-center mb-12">
           <h1 className="text-6xl font-bold mb-3 bg-gradient-to-r from-white to-neutral-400 bg-clip-text text-transparent">
-            Scribble Pad
+            Error Pad
           </h1>
           <p className="text-neutral-500 text-lg">
             write freely - share easily
