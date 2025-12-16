@@ -58,7 +58,7 @@ const Res = () => {
         />
 
         <textarea
-          className="w-full min-h-screen bg-transparent text-white text-lg px-8 outline-none resize-none placeholder-neutral-700 relative z-10"
+          className="w-full min-h-screen bg-transparent text-white text-lg px-8 outline-none resize-none placeholder-neutral-700 relative z-10 custom-scrollbar"
           style={{
             lineHeight: '32px',
             paddingTop: '16px',
@@ -69,6 +69,32 @@ const Res = () => {
           placeholder="start writing..."
         />
       </div>
+
+      <style>{`
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 12px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: #0a0a0a;
+          border-left: 1px solid #262626;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: #404040;
+          border-radius: 6px;
+          border: 2px solid #0a0a0a;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: #525252;
+        }
+
+        .custom-scrollbar {
+          scrollbar-width: thin;
+          scrollbar-color: #404040 #0a0a0a;
+        }
+      `}</style>
     </div>
   );
 };
