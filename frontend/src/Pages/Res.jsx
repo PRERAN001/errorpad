@@ -1,100 +1,70 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { io } from "socket.io-client";
+
+// Connect to your backend port 8000
+const socket = io("http://localhost:8000"); 
 
 const Res = () => {
   const { query } = useParams();
   const [restext, setRestext] = useState("");
+  const isInitialMount = useRef(true);
 
+  // STEP 1: Initial Load & Socket Setup
   useEffect(() => {
     const fetchText = async () => {
       try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_BASEURL}/${query}`
-        );
-        setRestext(response.data.usercontext);
-      } catch {
-        setRestext("");
+        const res = await axios.get(`http://localhost:8000/${query}`);
+        setRestext(res.data.usercontext || "");
+      } catch (err) {
+        console.log("New pad detected");
       }
     };
+
     fetchText();
+    socket.emit("join-room", query); // Tell server which room to join
+
+    // Listen for updates from OTHER users
+    socket.on("receive-content", (newText) => {
+      setRestext(newText);
+    });
+
+    return () => socket.off("receive-content");
   }, [query]);
 
-  const saveText = async () => {
-    await axios.post(`${import.meta.env.VITE_BASEURL}/${query}`, {
-      usercontext: restext,
-    });
-    console.log("Text saved:", restext);
-  };
+  // STEP 2: The Auto-Save (Debounce) Logic
+  useEffect(() => {
+    // Avoid saving immediately when the page first loads the data
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+
+
+    const delayTimer = setTimeout(() => {
+      // This is what actually triggers the DB change on the server
+      socket.emit("update-content", { 
+        roomName: query, 
+        usercontext: restext 
+      });
+    }, 1000); // 1 second delay
+
+    return () => clearTimeout(delayTimer); // Reset timer if user types again
+  }, [restext, query]);
 
   return (
     <div className="min-h-screen bg-black text-white flex flex-col">
-      <div className="border-b border-neutral-800 px-6 py-4 flex items-center justify-between bg-neutral-950 sticky top-0 z-20">
-        <div className="flex items-center gap-3 flex-1 min-w-0">
-          <h1 className="text-2xl font-bold whitespace-nowrap">Error Pad</h1>
-          <span className="text-neutral-600">|</span>
-          <span className="text-neutral-400 text-lg truncate">{query}</span>
-        </div>
-        <button
-          onClick={saveText}
-          className="bg-white text-black px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-neutral-200 active:scale-95 transition-all shrink-0 ml-4"
-        >
-          Save
-        </button>
+      <div className="border-b border-neutral-800 px-6 py-4 flex justify-between bg-neutral-950">
+        <h1 className="text-2xl font-bold">Error Pad | {query}</h1>
       </div>
 
-      <div className="flex-1 relative overflow-hidden">
-        <div 
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            backgroundImage: `repeating-linear-gradient(
-              transparent,
-              transparent 31px,
-              #1a1a1a 31px,
-              #1a1a1a 32px
-            )`,
-            backgroundPosition: '0 16px'
-          }}
-        />
-
-        <textarea
-          className="w-full min-h-screen bg-transparent text-white text-lg px-8 outline-none resize-none placeholder-neutral-700 relative z-10 custom-scrollbar"
-          style={{
-            lineHeight: '32px',
-            paddingTop: '16px',
-            paddingBottom: '16px'
-          }}
-          value={restext}
-          onChange={(e) => setRestext(e.target.value)}
-          placeholder="start writing..."
-        />
-      </div>
-
-      <style>{`
-        .custom-scrollbar::-webkit-scrollbar {
-          width: 12px;
-        }
-
-        .custom-scrollbar::-webkit-scrollbar-track {
-          background: #0a0a0a;
-          border-left: 1px solid #262626;
-        }
-
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: #404040;
-          border-radius: 6px;
-          border: 2px solid #0a0a0a;
-        }
-
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: #525252;
-        }
-
-        .custom-scrollbar {
-          scrollbar-width: thin;
-          scrollbar-color: #404040 #0a0a0a;
-        }
-      `}</style>
+      <textarea
+        className="flex-1 bg-transparent p-8 outline-none resize-none text-lg"
+        value={restext}
+        onChange={(e) => setRestext(e.target.value)}
+        placeholder="Start typing... saves automatically"
+      />
     </div>
   );
 };
