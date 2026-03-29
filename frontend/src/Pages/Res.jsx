@@ -3,8 +3,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { io } from "socket.io-client";
 
-// Connect to your backend port 8000
-const socket = io("http://localhost:8000"); 
+const socket = io(`${import.meta.env.VITE_BASEURL}`); 
 
 const Res = () => {
   const { query } = useParams();
@@ -14,7 +13,7 @@ const Res = () => {
   useEffect(() => {
     const fetchText = async () => {
       try {
-        const res = await axios.get(`http://localhost:8000/${query}`);
+        const res = await axios.get(`${import.meta.env.VITE_BASEURL}/${query}`);
         setRestext(res.data.usercontext || "");
       } catch (err) {
         console.log("New pad detected");

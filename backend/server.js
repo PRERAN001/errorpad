@@ -84,7 +84,7 @@ app.post('/:userquery', async (req, res) => {
     }
 });
 
-// CRITICAL: Use httpServer.listen, NOT app.listen
+
 httpServer.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
