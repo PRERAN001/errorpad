@@ -78,7 +78,7 @@ app.get('/v1/:userquery', async (req, res) => {
         }
         const formattedContent = user.usercontext.replace(/\\n/g, '\n');
         res.setHeader('Content-Type', 'text/plain');
-        res.status(200).json(formattedContent);
+        res.status(200).send(formattedContent);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
