@@ -69,16 +69,30 @@ app.get('/:userquery', async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
-app.post('/:userquery', async (req, res) => {
+app.get('/v1/:userquery', async (req, res) => {
     const userquery = req.params.userquery;
-    const { usercontext } = req.body;
+    try {
+        const user = await User.findOne({ userquery });
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        const formattedContent = user.usercontext.replace(/\\n/g, '\n');
+        res.setHeader('Content-Type', 'text/plain');
+        res.status(200).json(formattedContent);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+app.post('/v1/:userquery', async (req, res) => {
+    const userquery = req.params.userquery;
+    const  usercontext  = req.body;
     try {
         const user = await User.findOneAndUpdate(
             { userquery },
             { usercontext },
             { new: true, upsert: true }
         );
-        res.status(201).json(user);
+        res.status(201).json({"message":"done enjoy !! (updated)"});
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
