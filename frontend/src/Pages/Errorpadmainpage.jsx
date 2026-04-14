@@ -139,7 +139,7 @@ export default function Errorpadmainpage() {
               
               <div className="overflow-x-auto rounded-xl border border-black/50 bg-black/60 p-3">
                 <code className="whitespace-nowrap font-mono text-xs text-emerald-400">
-                  curl https://errorpad.vercel.app/v1/{cleanedQuery || "padname"} -o {cleanedQuery || "padname"}.txt
+                  curl https://errorpad.onrender.com/v1/{cleanedQuery || "padname"} -o {cleanedQuery || "padname"}.txt
                 </code>
               </div>
 
