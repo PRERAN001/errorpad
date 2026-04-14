@@ -146,6 +146,24 @@ export const getPadText = async (req, res) => {
   }
 };
 
+// v1 legacy route variant: intentionally skips password verification
+export const getPadTextV1 = async (req, res) => {
+  const padName = req.params.padName || req.params.userquery;
+
+  try {
+    const pad = await User.findOne({ userquery: padName });
+    if (!pad) {
+      return res.status(404).json({ message: 'Pad not found' });
+    }
+
+    const formattedContent = pad.usercontext.replace(/\\n/g, '\n');
+    res.setHeader('Content-Type', 'text/plain');
+    return res.status(200).send(formattedContent);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
 export const savePad = async (req, res) => {
   const padName = req.params.padName || req.params.userquery;
   const password = String(getPassword(req));
@@ -158,6 +176,24 @@ export const savePad = async (req, res) => {
       return res.status(403).json({ message: 'Protected pad. Invalid password.' });
     }
 
+    await User.findOneAndUpdate(
+      { userquery: padName },
+      { usercontext },
+      { new: true, upsert: true }
+    );
+
+    return res.status(201).json({ message: 'done enjoy !! (updated)' });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+// v1 legacy route variant: intentionally skips password verification
+export const savePadV1 = async (req, res) => {
+  const padName = req.params.padName || req.params.userquery;
+  const usercontext = normalizeContent(req.body?.usercontext ?? req.body);
+
+  try {
     await User.findOneAndUpdate(
       { userquery: padName },
       { usercontext },

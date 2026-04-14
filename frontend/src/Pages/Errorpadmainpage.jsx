@@ -14,6 +14,7 @@ export default function Errorpadmainpage() {
   const [unlockPadName, setUnlockPadName] = useState("");
   const [unlockOpen, setUnlockOpen] = useState(false);
   const [unlockError, setUnlockError] = useState("");
+  const [copied, setCopied] = useState(false);
 
   const cleanedQuery = useMemo(() => query.trim(), [query]);
 
@@ -79,12 +80,22 @@ export default function Errorpadmainpage() {
     }
   };
 
+  const handleCopyCurl = () => {
+    const padName = cleanedQuery || "padname";
+    const command = `curl https://errorpad.vercel.app/v1/${padName} -o ${padName}.txt`;
+    navigator.clipboard.writeText(command);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   return (
     <div className="min-h-screen bg-[#09090b] text-white">
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.08),transparent_40%),radial-gradient(circle_at_bottom_right,rgba(34,197,94,0.12),transparent_30%)]" />
 
       <main className="mx-auto flex min-h-screen w-full max-w-7xl flex-col justify-center gap-10 px-4 py-10 sm:px-6 lg:px-8">
         <section className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+          
+          {/* LEFT COLUMN */}
           <div>
             <p className="mb-4 inline-flex rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs uppercase tracking-[0.35em] text-neutral-400">
               Collaborative pads, polished up
@@ -108,8 +119,37 @@ export default function Errorpadmainpage() {
                 </div>
               ))}
             </div>
+
+            {/* NEW: Smaller, Highlighted Terminal Section on the Left */}
+            <div className="mt-8 relative overflow-hidden rounded-3xl border border-emerald-500/30 bg-emerald-500/5 p-5 shadow-lg shadow-emerald-900/10 backdrop-blur-md">
+              <div className="absolute left-0 top-0 h-full w-1 bg-emerald-500/50" />
+              
+              <div className="mb-3 flex items-center justify-between gap-4">
+                <div>
+                  <h3 className="text-base font-semibold text-emerald-300">Terminal access</h3>
+                  <p className="text-xs text-emerald-200/70">Fetch context directly from your CLI.</p>
+                </div>
+                <button
+                  onClick={handleCopyCurl}
+                  className="shrink-0 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-3 py-1.5 text-xs font-medium text-emerald-300 transition hover:bg-emerald-500/20"
+                >
+                  {copied ? 'Copied!' : 'Copy command'}
+                </button>
+              </div>
+              
+              <div className="overflow-x-auto rounded-xl border border-black/50 bg-black/60 p-3">
+                <code className="whitespace-nowrap font-mono text-xs text-emerald-400">
+                  curl https://errorpad.vercel.app/v1/{cleanedQuery || "padname"} -o {cleanedQuery || "padname"}.txt
+                </code>
+              </div>
+
+              <p className="mt-3 text-[11px] leading-relaxed text-emerald-200/60">
+                <strong>Note:</strong> For adding context, you should use the website. A password is not required when using curl to fetch context.,content goes into your provided padname file
+              </p>
+            </div>
           </div>
 
+          {/* RIGHT COLUMN: The Form */}
           <div className="rounded-4xl border border-white/10 bg-white/5 p-6 shadow-2xl shadow-black/30 backdrop-blur-xl sm:p-8">
             <form onSubmit={send} className="space-y-5">
               <div>
@@ -166,6 +206,7 @@ export default function Errorpadmainpage() {
           </div>
         </section>
 
+        {/* BOTTOM SECTION */}
         <section className="grid gap-4 md:grid-cols-3">
           {[
             'Shared pad links work instantly.',

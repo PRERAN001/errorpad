@@ -7,7 +7,7 @@ import { connectDatabase } from './config/db.js';
 import padRoutes from './routes/padRoutes.js';
 import fileRoutes, { legacyUploadHandler } from './routes/fileRoutes.js';
 import { legacyListFiles, legacyUpload } from './controllers/fileController.js';
-import { getPad, getPadText, savePad } from './controllers/padController.js';
+import { getPad, getPadTextV1, savePadV1 } from './controllers/padController.js';
 import { getSupabaseStorageStatus } from './services/supabaseStorageService.js';
 import { registerSocketHandlers } from './services/socketService.js';
 
@@ -43,8 +43,8 @@ export const createAppServer = async () => {
   app.post('/upload', legacyUploadHandler, legacyUpload);
   app.get('/files/:folderId', legacyListFiles);
 
-  app.post('/v1/:userquery', savePad);
-  app.get('/v1/:userquery', getPadText);
+  app.post('/v1/:userquery', savePadV1);
+  app.get('/v1/:userquery', getPadTextV1);
   app.get('/:userquery', getPad);
 
   return { app, httpServer, io };

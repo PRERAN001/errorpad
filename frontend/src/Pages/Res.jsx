@@ -263,10 +263,11 @@ const Res = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-white">
+    <div className="min-h-screen bg-[#09090b] text-white flex flex-col">
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.08),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(59,130,246,0.14),transparent_35%)]" />
 
-      <main className="mx-auto flex min-h-screen w-full max-w-7xl flex-col gap-6 px-4 py-4 sm:px-6 lg:px-8 lg:py-8">
+      {/* Increased max-w to 96% to make it huge */}
+      <main className="mx-auto flex min-h-screen w-full max-w-[96%] flex-col gap-6 px-4 py-4 sm:px-6 lg:px-8 lg:py-8">
         <PadHeader
           padName={query}
           isProtected={meta.isProtected}
@@ -275,14 +276,19 @@ const Res = () => {
           onCopyLink={handleCopyLink}
         />
 
-        <section className="grid flex-1 gap-6 xl:grid-cols-[minmax(0,1.6fr)_minmax(320px,0.8fr)]">
-          <div className="rounded-3xl border border-white/10 bg-white/5 p-4 shadow-2xl shadow-black/20 backdrop-blur-xl sm:p-6">
+        {/* Updated grid config to 3fr (75%) and 1fr (25%) */}
+        <section className="grid flex-1 gap-6 xl:grid-cols-[3fr_1fr]">
+          
+          {/* Added flex and h-full to wrap the textarea to stretch vertically */}
+          <div className="flex flex-col h-full rounded-3xl border border-white/10 bg-white/5 p-4 shadow-2xl shadow-black/20 backdrop-blur-xl sm:p-6">
             <div className="mb-4 flex items-center justify-between gap-3 text-xs text-neutral-500">
               <span>Live editor</span>
               <span>{meta.isProtected ? 'Password protected' : 'Open pad'}</span>
             </div>
+            
+            {/* Added flex-1 and min-h-[75vh] to stretch the text area fully */}
             <textarea
-              className="min-h-[65vh] w-full resize-none rounded-3xl border border-white/10 bg-black/45 p-6 text-lg leading-8 text-white outline-none transition placeholder:text-neutral-600 focus:border-white/25"
+              className="flex-1 min-h-[75vh] w-full resize-none rounded-3xl border border-white/10 bg-black/45 p-6 text-lg leading-8 text-white outline-none transition placeholder:text-neutral-600 focus:border-white/25"
               value={content}
               onChange={(event) => setContent(event.target.value)}
               placeholder="Start typing... your text saves automatically."
