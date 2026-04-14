@@ -6,7 +6,15 @@ const userSchema=new mongoose.Schema({
     },
     usercontext:{
         type:String,
-        required:true,
+        required:false,
+    }
+   ,isProtected:{
+        type:Boolean,
+        default:false,
+    }
+   ,passwordHash:{
+        type:String,
+        default:"",
     }
    
 })

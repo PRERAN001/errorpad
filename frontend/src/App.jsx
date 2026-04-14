@@ -1,6 +1,6 @@
 import Errorpadmainpage from "./Pages/Errorpadmainpage.jsx";
 import Res from "./Pages/Res.jsx";
-import { Routes, Route } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 
 const App = () => {
   return (
@@ -9,6 +9,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Errorpadmainpage />} />
         <Route path="/:query" element={<Res />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </>
   );
