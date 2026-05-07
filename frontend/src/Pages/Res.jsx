@@ -196,6 +196,10 @@ const Res = () => {
     }
   };
 
+  const copyclipboard=async(data)=>{
+    navigator.clipboard.write(data)
+  };
+    
   const handleUpload = async (file) => {
     if (!file) return;
 
@@ -283,6 +287,7 @@ const Res = () => {
           <div className="flex flex-col h-full rounded-3xl border border-white/10 bg-white/5 p-4 shadow-2xl shadow-black/20 backdrop-blur-xl sm:p-6">
             <div className="mb-4 flex items-center justify-between gap-3 text-xs text-neutral-500">
               <span>Live editor</span>
+              <span onClick="copyclipboard(content)">copy to clipboard 📋</span>
               <span>{meta.isProtected ? 'Password protected' : 'Open pad'}</span>
             </div>
             
